@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TEXT WRITER</title>
+  <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css" />
+  <script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script>
+
+  <style>
+    body {
+      background-color: white;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .dark {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: grey;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: darkgrey;
+    }
+
+
+    #OUTPUT {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #661166;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body id="page">
+  <div class="container">
+    <input type="text" placeholder="ENTER TEXT:" id="textbox" />
+    <button py-click="clicked">SUBMIT</button>
+    <button py-click="clearAll">CLEAR</button>
+    <button py-click="remove_word">CLEAR WORD</button>
+    <button class="toggle" id="mode" py-click="toggle_mode">🌙 Dark Mode</button>
+    <div id="OUTPUT"></div>
+  </div>
+
+  <script type="py">
+    from pyscript import display, document
+
+    def toggle_mode(*args):
+        page = document.getElementById("page")
+        btn = document.getElementById("mode")
+        page.classList.toggle("dark")
+        if page.classList.contains("dark"):
+            btn.innerText = "🌞 Light Mode"
+        else:
+            btn.innerText = "🌙 Dark Mode"
+
+    def clicked(args):
+        text = document.getElementById("textbox").value
+        document.getElementById("OUTPUT").innerHTML += "<br>" + text
+
+    def clearAll(args):
+        document.getElementById("OUTPUT").innerHTML = ""
+
+    def remove_word(args):
+        text = document.getElementById("textbox").value.strip()
+        div = document.getElementById("OUTPUT")
+        content = div.innerHTML
+        lines = content.split("<br>")
+        updated_lines = [line for line in lines if line.strip() != text]
+        div.innerHTML = "<br>".join(updated_lines)
+  </script>
+</body>
+</html>
